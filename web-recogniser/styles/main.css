@@ -1,0 +1,50 @@
+.content{
+    width: 650px;
+    margin: 0 auto;
+}
+.logo{
+    width:450px;
+    width: 500px;
+    margin: 0 auto;
+    margin-top: 25px;
+    margin-bottom: 5px;
+}
+.input-canvas-container {
+    margin-top : 10px;
+}
+
+.input-canvas-container > *{
+    display: block;
+}
+
+.label {
+    text-align: center;
+    margin-bottom : 10px;
+}
+
+#input-canvas{
+    border: #323441 2px solid;
+    margin: 0 auto;
+}
+
+.content > *{
+    display: block;
+}
+
+.controls {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.controls .button{
+    display: inline;
+}
+
+.output-region{
+    text-align: center;
+    margin-top : 10px;
+}
+
+.feed-image-container {
+    display : none;
+}
