@@ -52,7 +52,7 @@ document.getElementById('recognise-button').onclick = function () {
         data : JSON.stringify({pixels : pixels})
     }).done(function (res) {
         let predicted_result = JSON.parse(res)
-        document.getElementById('output-region-text').innerText = predicted_result.join("");
+        document.getElementById('output-region-text').innerText = predicted_result;
     });
 };
 
