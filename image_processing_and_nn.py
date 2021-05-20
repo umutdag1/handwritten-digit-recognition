@@ -29,8 +29,8 @@ class IP_and_NN():
             x,y,w,h = cv2.boundingRect(c)
             ROI = self.gray[y:y+h, x:x+w]
             resized_image = cv2.resize(ROI,(28,28))
-            cv2.imshow("Resized_Image",resized_image)
-            cv2.waitKey(0)
+            #cv2.imshow("Resized_Image",resized_image)
+            #cv2.waitKey(0)
             resized_image = resized_image.flatten()
             result = run_nn_obj.train_and_test(resized_image)
             results.append(result)
