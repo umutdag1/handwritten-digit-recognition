@@ -1,6 +1,5 @@
 from nn import NeuralNetwork
 import numpy as np
-from flask import json
 
 class RunNN():
     def __init__(self):
@@ -25,7 +24,7 @@ class RunNN():
             
             output = self.neural_network.query(test_data) 
         
-        return json.dumps(get_index_of_max(output))
+        return get_index_of_max(output)
         
 def prepare_data(handwritten_digit_array):
     return ((handwritten_digit_array / 255.0 * 0.99) + 0.0001).flatten()
