@@ -4,27 +4,35 @@ import numpy as np
 class RunNN():
     def __init__(self):
         self.neural_network = NeuralNetwork()
-        
-    def train_and_test(self, test_data):
-        training_data_file = open('mnist_train_editted.csv', 'r')
-        training_data = training_data_file.readlines()
-        training_data_file.close()   
-        
-        for data in training_data:
-            handwritten_digit_raw = data.split(',')
-            handwritten_digit_array = np.asfarray(handwritten_digit_raw[1:]).reshape((28, 28))
-            handwritten_digit_target = int(handwritten_digit_raw[0])
-            self.neural_network.train(prepare_data(handwritten_digit_array), create_target(handwritten_digit_target))
-        
-        for data in training_data:
-            handwritten_digit_raw = data.split(',')
-            handwritten_digit_array = np.asfarray(handwritten_digit_raw[1:]).reshape((28, 28))
-            handwritten_digit_target = int(handwritten_digit_raw[0])
-            self.neural_network.train(prepare_data(handwritten_digit_array), create_target(handwritten_digit_target)) 
-            
-            output = self.neural_network.query(test_data) 
-        
+        self.isTrained = False
+    
+    def test(self, test_data):
+        output = self.neural_network.query(test_data) 
         return get_index_of_max(output)
+    
+    def train(self):
+        if self.isTrained == False :
+            training_data_file = open('mnist_train_editted.csv', 'r')
+            training_data = training_data_file.readlines()
+            training_data_file.close()   
+        
+            for data in training_data:
+                handwritten_digit_raw = data.split(',')
+                handwritten_digit_array = np.asfarray(handwritten_digit_raw[1:]).reshape((28, 28))
+                handwritten_digit_target = int(handwritten_digit_raw[0])
+                self.neural_network.train(prepare_data(handwritten_digit_array), create_target(handwritten_digit_target))
+        
+            for data in training_data:
+                handwritten_digit_raw = data.split(',')
+                handwritten_digit_array = np.asfarray(handwritten_digit_raw[1:]).reshape((28, 28))
+                handwritten_digit_target = int(handwritten_digit_raw[0])
+                self.neural_network.train(prepare_data(handwritten_digit_array), create_target(handwritten_digit_target)) 
+            
+            self.isTrained = True
+        
+        #output = self.neural_network.query(test_data) 
+        
+        #return get_index_of_max(output)
         
 def prepare_data(handwritten_digit_array):
     return ((handwritten_digit_array / 255.0 * 0.99) + 0.0001).flatten()

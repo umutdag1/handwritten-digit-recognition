@@ -51,8 +51,10 @@ document.getElementById('recognise-button').onclick = function () {
         contentType: 'application/json; charset=utf-8',
         data : JSON.stringify({pixels : pixels})
     }).done(function (res) {
-        let predicted_result = JSON.parse(res)
-        document.getElementById('output-region-text').innerText = predicted_result;
+        let predicted_result =  JSON.parse(res)
+        console.log(predicted_result)    
+        
+        document.getElementById('output-region-text').innerText = predicted_result.join("");
     });
 };
 

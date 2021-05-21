@@ -1,7 +1,5 @@
 import numpy as np
 import cv2
-from run_nn import RunNN
-from flask import json
 
 class IP_and_NN():
     def __init__(self):
@@ -20,21 +18,31 @@ class IP_and_NN():
         self.cnts = cv2.findContours(self.dilate, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         self.cnts = self.cnts[0] if len(self.cnts) == 2 else self.cnts[1]
         
-    def get_results(self,image_data):
+    def get_results(self,run_nn_obj,image_data):
         results = []
-        run_nn_obj = RunNN()
+        #run_nn_obj = RunNN()
         self.find_corners_in_img(image_data)
         self.find_contours()
+        self.check_image_contours()
         for c in self.cnts:
             x,y,w,h = cv2.boundingRect(c)
             ROI = self.gray[y:y+h, x:x+w]
             resized_image = cv2.resize(ROI,(28,28))
-            #cv2.imshow("Resized_Image",resized_image)
-            #cv2.waitKey(0)
-            resized_image = resized_image.flatten()
-            result = run_nn_obj.train_and_test(resized_image)
+            blackAndWhiteImage = thresholdingImage(resized_image,0.66)
+            blackAndWhiteImage = btowwtob(blackAndWhiteImage)
+            result = run_nn_obj.test(blackAndWhiteImage.flatten())
             results.append(result)
-        return json.dumps(results)
+        return results
+    def check_image_contours(self):
+        for c in self.cnts:
+            x,y,w,h = cv2.boundingRect(c)
+            ROI = self.gray[y:y+h, x:x+w]
+            resized_image = cv2.resize(ROI,(28,28))
+            cv2.imshow("Test",resized_image)
+            cv2.waitKey(0)
+        
+        
+        
         
 
 def btowwtob(inputs):
