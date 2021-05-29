@@ -6,8 +6,8 @@ class IP_and_NN():
         pass
     
     def find_corners_in_img(self, image_data):
-        original = image_data.copy()
-        self.gray = rgb2gray(original)
+        self.original = image_data.copy()
+        self.gray = rgb2gray(self.original)
         self.blurred = cv2.GaussianBlur(self.gray, (3, 3), 3)
         self.canny = cv2.Canny(self.blurred, 120, 255, 1)
         kernel = np.ones((5,5),np.uint8)
@@ -17,6 +17,8 @@ class IP_and_NN():
         # Find contours
         self.cnts = cv2.findContours(self.dilate, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         self.cnts = self.cnts[0] if len(self.cnts) == 2 else self.cnts[1]
+        self.cnts = [cv2.boundingRect(i) for i in self.cnts]
+        self.cnts=sorted(self.cnts, key=lambda x: x[0])
         
     def get_results(self,run_nn_obj,image_data):
         results = []
@@ -25,7 +27,7 @@ class IP_and_NN():
         self.find_contours()
         self.check_image_contours()
         for c in self.cnts:
-            x,y,w,h = cv2.boundingRect(c)
+            x,y,w,h = c
             ROI = self.gray[y:y+h, x:x+w]
             resized_image = cv2.resize(ROI,(28,28))
             blackAndWhiteImage = thresholdingImage(resized_image,0.66)
@@ -34,8 +36,12 @@ class IP_and_NN():
             results.append(result)
         return results
     def check_image_contours(self):
+        cv2.imshow("RGB",self.original)
+        cv2.waitKey(0)
+        cv2.imshow("Blurred",self.blurred)
+        cv2.waitKey(0)
         for c in self.cnts:
-            x,y,w,h = cv2.boundingRect(c)
+            x,y,w,h = c
             ROI = self.gray[y:y+h, x:x+w]
             resized_image = cv2.resize(ROI,(28,28))
             cv2.imshow("Test",resized_image)

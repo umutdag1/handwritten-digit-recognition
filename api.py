@@ -5,11 +5,14 @@ from PIL import Image
 from image_processing_and_nn import IP_and_NN
 import cv2
 from run_nn import RunNN
+import time
 
+start_time = time.time()
 run_nn_obj = RunNN()
 print("Training begining.")
 run_nn_obj.train()
 print("Training done.")
+print("--- %s seconds ---" % (time.time() - start_time))
 
 api = Flask(__name__)
 cors = CORS(api)

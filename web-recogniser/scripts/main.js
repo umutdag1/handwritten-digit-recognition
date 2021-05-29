@@ -1,6 +1,6 @@
 
 let drawingCanvas = document.getElementById('input-canvas');
-drawingCanvas.width = 84;
+drawingCanvas.width = 112;
 drawingCanvas.height = 84;
 let drawingContext = drawingCanvas.getContext('2d');
 
